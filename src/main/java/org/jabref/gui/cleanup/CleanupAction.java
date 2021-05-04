@@ -70,7 +70,7 @@ public class CleanupAction extends SimpleCommand {
                         Localization.lang("Auto-generating PDF-Names does not support undo. Continue?"),
                         Localization.lang("Autogenerate PDF Names"),
                         Localization.lang("Cancel"),
-                        Localization.lang("Disable this confirmation dialog"),
+                        Localization.lang("Do not ask again"),
                         optOut -> preferences.storeAutoLinkPreferences(preferences.getAutoLinkPreferences()
                                                                                   .withAskAutoNamingPdfs(!optOut)));
                 if (!confirmed) {
@@ -94,7 +94,8 @@ public class CleanupAction extends SimpleCommand {
         // Create and run cleaner
         CleanupWorker cleaner = new CleanupWorker(
                 databaseContext,
-                preferences.getCleanupPreferences(Globals.journalAbbreviationRepository));
+                preferences.getCleanupPreferences(Globals.journalAbbreviationRepository),
+                preferences.getTimestampPreferences());
 
         List<FieldChange> changes = cleaner.cleanup(preset, entry);
 
